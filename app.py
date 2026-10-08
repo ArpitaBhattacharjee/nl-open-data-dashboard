@@ -73,3 +73,18 @@ aging["Share 65+ (%)"] = aging[old_cols].sum(axis=1) / aging["Total.Population"]
 fig4 = px.line(aging, x="year", y="Share 65+ (%)", markers=True,
                title="Share of NL Population Aged 65+ (%)")
 st.plotly_chart(fig4, use_container_width=True)
+# Population pyramid
+st.subheader("Population Pyramid")
+pyr = df[(df["year"] == age_year) & (df["Gender"].isin(["Male", "Female"]))]
+labels = [c.replace("Population.Aged.", "").replace(".to.", "-").rstrip(".") for c in age_cols]
+labels = ["80+" if l == "80" else l for l in labels]
+male = pyr[pyr["Gender"] == "Male"][age_cols].iloc[0].values
+female = pyr[pyr["Gender"] == "Female"][age_cols].iloc[0].values
+
+fig5 = go.Figure()
+fig5.add_trace(go.Bar(y=labels, x=-male, name="Male", orientation="h"))
+fig5.add_trace(go.Bar(y=labels, x=female, name="Female", orientation="h"))
+fig5.update_layout(barmode="relative", title=f"Population Pyramid ({age_year})",
+                   xaxis_title="Population (Male left, Female right)",
+                   yaxis_title="Age Group")
+st.plotly_chart(fig5, use_container_width=True)
