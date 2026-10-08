@@ -88,3 +88,25 @@ fig5.update_layout(barmode="relative", title=f"Population Pyramid ({age_year})",
                    xaxis_title="Population (Male left, Female right)",
                    yaxis_title="Age Group")
 st.plotly_chart(fig5, use_container_width=True)
+# Community risk analysis
+st.header("Community Risk: Shrinking and Aging Communities")
+st.caption("175 communities with reliable 2010 and 2020 data. "
+           "Risk score (0-100) combines population loss and share aged 65+.")
+
+risk = pd.read_csv("data/community_risk.csv")
+
+top_n = st.slider("Show top N highest-risk communities", 5, 30, 10)
+top = risk.sort_values("Risk score", ascending=False).head(top_n)
+
+fig6 = px.bar(top.sort_values("Risk score"), x="Risk score", y="Geography",
+              orientation="h", color="Share 65+ (%)",
+              title=f"Top {top_n} Highest-Risk Communities")
+st.plotly_chart(fig6, use_container_width=True)
+
+fig7 = px.scatter(risk, x="Share 65+ (%)", y="Change %", color="Risk score",
+                  hover_name="Geography",
+                  title="Aging vs Population Change (each dot is a community)")
+st.plotly_chart(fig7, use_container_width=True)
+
+st.dataframe(top[["Geography", "Pop 2010", "Pop 2020", "Change %",
+                  "Share 65+ (%)", "Risk score"]])
