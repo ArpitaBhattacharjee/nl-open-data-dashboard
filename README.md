@@ -4,6 +4,11 @@ Interactive dashboard analyzing Newfoundland and Labrador population trends, agi
 
 **Live demo:** https://nl-open-data-dashboard-9zmjyxdu72gbubjfdgqhju.streamlit.app
 
+## Screenshots
+![Population trend](images/01-trend.png)
+![Forecast](images/02-forecast.png)
+![Community risk](images/03-community-risk.png)
+
 ## What it does
 - Population trend 2010-2020 with gender and year filters
 - Population by age group and population pyramid
