@@ -62,3 +62,14 @@ fig3.add_trace(go.Scatter(x=future_years + future_years[::-1],
 fig3.update_layout(title="NL Population Forecast (ARIMA)",
                    xaxis_title="Year", yaxis_title="Population")
 st.plotly_chart(fig3, use_container_width=True)
+# Aging chart: share of population aged 65+
+st.subheader("Aging Population: Share Aged 65+")
+
+old_cols = ["Population.Aged.65.to.69", "Population.Aged.70.to.74",
+            "Population.Aged.75.to.79", "Population.Aged.80."]
+aging = df[df["Gender"] == "Total"].sort_values("year").copy()
+aging["Share 65+ (%)"] = aging[old_cols].sum(axis=1) / aging["Total.Population"] * 100
+
+fig4 = px.line(aging, x="year", y="Share 65+ (%)", markers=True,
+               title="Share of NL Population Aged 65+ (%)")
+st.plotly_chart(fig4, use_container_width=True)
